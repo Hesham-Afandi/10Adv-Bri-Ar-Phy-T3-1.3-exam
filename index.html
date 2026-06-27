@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔬 Grade 11 Advanced Physics - Applications of Lenses (1.3)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Cairo', sans-serif; }
+        body.en-mode { font-family: 'Inter', sans-serif; }
+        .correct { background-color: #dcfce7 !important; border-color: #16a34a !important; }
+        .incorrect { background-color: #fee2e2 !important; border-color: #dc2626 !important; }
+        .formula { font-family: 'Times New Roman', serif; font-style: italic; direction: ltr; display: inline-block; }
+        .timer-warning { color: #dc2626 !important; animation: pulse 1s infinite; }
+        @keyframes pulse { 50% { opacity: 0.7; } }
+        @media print { .no-print { display: none !important; } }
+        .success-badge { display: inline-block; padding: 4px 12px; border-radius: 20px; font-weight: bold; font-size: 0.875rem; }
+        .grade-excellent { background: #dcfce7; color: #166534; }
+        .grade-good { background: #fef3c7; color: #92400e; }
+        .grade-pass { background: #dbeafe; color: #1e40af; }
+        .grade-fail { background: #fee2e2; color: #991b1b; }
+        .lang-switch {
+            position: fixed; top: 16px; left: 16px; z-index: 100;
+            background: white; padding: 6px; border-radius: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15); display: flex; gap: 4px;
+            border: 2px solid #0d9488;
+        }
+        [dir="ltr"] .lang-switch { left: auto; right: 16px; }
+        .lang-btn {
+            padding: 6px 14px; border-radius: 20px; cursor: pointer; font-weight: bold;
+            transition: all 0.3s; border: none; font-size: 0.875rem;
+            background: transparent; color: #6b7280;
+        }
+        .lang-btn.active { background: #0d9488; color: white; box-shadow: 0 2px 6px rgba(13,148,136,0.4); }
+        .lang-btn:hover:not(.active) { background: #f0fdfa; color: #0d9488; }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 p-4 md:p-8 min-h-screen">
+
+    <div class="lang-switch no-print">
+        <button class="lang-btn active" onclick="setLanguage('ar')" id="btn-ar">عربي</button>
+        <button class="lang-btn" onclick="setLanguage('en')" id="btn-en">EN</button>
+    </div>
+
+    <div id="timer-container" class="max-w-4xl mx-auto mb-4 text-center no-print">
+        <div class="bg-white p-4 rounded-xl shadow-md inline-block border-2 border-teal-100">
+            <span class="text-gray-600 ml-2" data-ar="⏱️ الوقت المتبقي:" data-en="⏱️ Time Remaining:">⏱️ الوقت المتبقي:</span>
+            <span id="timer" class="text-2xl font-bold text-teal-600 font-mono">45:00</span>
+        </div>
+    </div>
+
+    <div class="max-w-4xl mx-auto mb-6 flex flex-wrap gap-3 justify-center no-print">
+        <button onclick="toggleAnswers()" class="bg-teal-600 hover:bg-teal-700 text-white px-5 py-2 rounded-lg font-medium transition shadow cursor-pointer" data-ar="👁️ إظهار / إخفاء الإجابات" data-en="👁️ Show / Hide Answers">👁️ إظهار / إخفاء الإجابات</button>
+        <button onclick="window.print()" class="bg-gray-800 hover:bg-gray-900 text-white px-5 py-2 rounded-lg font-medium transition shadow cursor-pointer" data-ar="🖨️ طباعة / PDF" data-en="🖨️ Print / PDF">🖨️ طباعة / PDF</button>
+    </div>
+
+    <header class="max-w-4xl mx-auto bg-white p-6 rounded-xl shadow-md mb-8 border-r-4 border-teal-600">
+        <div class="text-center">
+            <h1 class="text-2xl md:text-3xl font-bold text-gray-900 mb-2" data-ar="🔬 فيزياء الصف الحادي عشر متقدم" data-en="🔬 Grade 11 Advanced Physics">🔬 فيزياء الصف الحادي عشر متقدم</h1>
+            <h2 class="text-lg text-teal-600 font-semibold" data-ar="الدرس 1.3: تطبيقات العدسات" data-en="Lesson 1.3: Applications of Lenses">الدرس 1.3: تطبيقات العدسات</h2>
+            <p class="text-sm text-gray-600 mt-2" data-ar="العين البشرية، الكاميرا، المجهر، التلسكوب، المنظار الثنائي، والعدسات الجذبية" data-en="Human Eye, Camera, Microscope, Telescope, Binoculars & Gravitational Lenses">العين البشرية، الكاميرا، المجهر، التلسكوب، المنظار الثنائي، والعدسات الجذبية</p>
+        </div>
+        <div class="mt-4 flex flex-wrap justify-center gap-4 text-sm text-gray-600">
+            <span><span data-ar="📅 التاريخ:" data-en="📅 Date:">📅 التاريخ:</span> <input type="text" class="border-b border-gray-400 bg-transparent w-28 text-center"></span>
+            <span><span data-ar="👤 الاسم:" data-en="👤 Name:">👤 الاسم:</span> <input type="text" id="studentName" class="border-b border-gray-400 bg-transparent w-32 text-center" placeholder="Enter name"></span>
+            <span><span data-ar="🏫 الشعبة:" data-en="🏫 Class:">🏫 الشعبة:</span> <input type="text" id="studentClass" class="border-b border-gray-400 bg-transparent w-28 text-center" placeholder="Class"></span>
+            <span><span data-ar="⏱️ المدة: 45 دقيقة" data-en="⏱️ Duration: 45 min">⏱️ المدة: 45 دقيقة</span></span>
+            <span><span data-ar="📊 المجموع: 100 درجة" data-en="📊 Total: 100 pts">📊 المجموع: 100 درجة</span></span>
+        </div>
+    </header>
+
+    <main class="max-w-4xl mx-auto space-y-8" id="exam-content"></main>
+
+    <div class="text-center no-print pb-8 mt-8">
+        <button onclick="gradeExam()" class="bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white text-lg px-10 py-4 rounded-xl font-bold shadow-xl transition transform hover:scale-105 cursor-pointer" data-ar="📝 تسليم وتصحيح الامتحان" data-en="📝 Submit & Grade Exam">📝 تسليم وتصحيح الامتحان</button>
+    </div>
+
+    <div id="results-panel" class="max-w-4xl mx-auto mt-8 bg-white p-8 rounded-2xl shadow-2xl border-t-4 border-emerald-500 hidden no-print">
+        <h2 class="text-3xl font-bold text-gray-900 mb-6 text-center" data-ar="📊 نتائج الامتحان" data-en="📊 Exam Results">📊 نتائج الامتحان</h2>
+        <div class="grid md:grid-cols-3 gap-4 mb-6">
+            <div class="bg-blue-50 p-4 rounded-xl text-center"><p data-ar="اسم الطالب" data-en="Student Name">اسم الطالب</p><p id="res-name" class="font-bold text-xl text-teal-700">-</p></div>
+            <div class="bg-purple-50 p-4 rounded-xl text-center"><p data-ar="التاريخ" data-en="Date">التاريخ</p><p id="res-date" class="font-bold text-xl text-purple-700">-</p></div>
+            <div class="bg-emerald-50 p-4 rounded-xl text-center"><p data-ar="المجموع" data-en="Score">المجموع</p><p id="res-total" class="font-bold text-3xl text-emerald-600">0 / 100</p></div>
+        </div>
+
+        <div class="text-center mb-6">
+            <span id="success-badge" class="success-badge grade-excellent">-</span>
+            <p id="success-percent" class="text-4xl font-bold text-emerald-600 mt-2">100%</p>
+            <p class="text-sm text-gray-500" data-ar="نسبة النجاح" data-en="Success Rate">نسبة النجاح</p>
+        </div>
+
+        <div class="bg-gray-50 p-6 rounded-xl mb-6">
+            <h3 class="font-bold text-lg mb-4 text-gray-800" data-ar="📈 تفصيل الأداء حسب القسم:" data-en="📈 Performance Breakdown:">📈 تفصيل الأداء حسب القسم:</h3>
+            <div class="space-y-3">
+                <div class="flex justify-between items-center">
+                    <span class="text-gray-700" data-ar="العين البشرية وعيوب الإبصار" data-en="Human Eye & Vision Defects">العين البشرية وعيوب الإبصار</span>
+                    <span id="sec1-score" class="font-bold text-teal-600">0/4</span>
+                </div>
+                <div class="flex justify-between items-center">
+                    <span class="text-gray-700" data-ar="الكاميرا وتطبيقاتها" data-en="Camera & Applications">الكاميرا وتطبيقاتها</span>
+                    <span id="sec2-score" class="font-bold text-teal-600">0/4</span>
+                </div>
+                <div class="flex justify-between items-center">
+                    <span class="text-gray-700" data-ar="المجهر والتلسكوب" data-en="Microscope & Telescope">المجهر والتلسكوب</span>
+                    <span id="sec3-score" class="font-bold text-teal-600">0/4</span>
+                </div>
+                <div class="flex justify-between items-center">
+                    <span class="text-gray-700" data-ar="المنظار الثنائي والعدسة المكبرة" data-en="Binoculars & Magnifying Glass">المنظار الثنائي والعدسة المكبرة</span>
+                    <span id="sec4-score" class="font-bold text-teal-600">0/4</span>
+                </div>
+                <div class="flex justify-between items-center">
+                    <span class="text-gray-700" data-ar="العدسات الجذبية وتطبيقات متقدمة" data-en="Gravitational Lenses & Advanced">العدسات الجذبية وتطبيقات متقدمة</span>
+                    <span id="sec5-score" class="font-bold text-teal-600">0/4</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center mb-6">
+            <button id="sendEmailBtn" onclick="sendResultsToEmail()" class="bg-gradient-to-r from-teal-600 to-cyan-600 hover:from-teal-700 hover:to-cyan-700 text-white text-lg px-8 py-3 rounded-xl font-bold shadow-xl transition transform hover:scale-105 cursor-pointer" data-ar="📧 إرسال النتائج للمعلم" data-en="📧 Send Results to Teacher">📧 إرسال النتائج للمعلم</button>
+            <p id="emailStatus" class="text-sm mt-2 text-center font-medium"></p>
+        </div>
+
+        <div class="flex gap-3 justify-center">
+            <button onclick="window.print()" class="bg-gray-700 text-white px-6 py-3 rounded-lg font-semibold" data-ar="🖨️ طباعة النتائج" data-en="🖨️ Print Results">🖨️ طباعة النتائج</button>
+        </div>
+    </div>
+
+    <footer class="max-w-4xl mx-auto mt-10 mb-8 text-center text-gray-500 text-sm no-print">
+        © <span data-ar="فيزياء الصف الحادي عشر متقدم | الدرس 1.3: تطبيقات العدسات" data-en="Grade 11 Advanced Physics | Lesson 1.3: Applications of Lenses">فيزياء الصف الحادي عشر متقدم | الدرس 1.3: تطبيقات العدسات</span> | Mr. Mohammed Hesham
+    </footer>
+
+<script>
+const examData = {
+    sections: [
+        {
+            id: 'sec1',
+            title: { ar: '🔹 الجزء الأول: العين البشرية وعيوب الإبصار', en: '🔹 Part 1: Human Eye & Vision Defects' },
+            questions: [
+                {
+                    q: { ar: 'العدسة الطبيعية في العين البشرية هي:', en: 'The natural lens in the human eye is:' },
+                    options: [
+                        { ar: 'عدسة مقعرة (مفرقة)', en: 'Concave lens (diverging)' },
+                        { ar: 'عدسة محدبة (مجمعة)', en: 'Convex lens (converging)' },
+                        { ar: 'عدسة مستوية', en: 'Flat lens' },
+                        { ar: 'عدسة أسطوانية', en: 'Cylindrical lens' }
+                    ],
+                    correct: 1,
+                    answer: { ar: 'العين تحتوي على عدسة محدبة طبيعية تكسر الضوء لتكوين صورة حقيقية مقلوبة على الشبكية', en: 'The eye contains a natural convex lens that refracts light to form a real inverted image on the retina' }
+                },
+                {
+                    q: { ar: 'في حالة قصر النظر (Myopia)، تتكون الصورة:', en: 'In case of nearsightedness (Myopia), the image forms:' },
+                    options: [
+                        { ar: 'خلف الشبكية', en: 'Behind the retina' },
+                        { ar: 'على الشبكية تماماً', en: 'Exactly on the retina' },
+                        { ar: 'أمام الشبكية', en: 'In front of the retina' },
+                        { ar: 'في بؤبؤ العين', en: 'At the pupil' }
+                    ],
+                    correct: 2,
+                    answer: { ar: 'في قصر النظر، تتكون الصورة أمام الشبكية بسبب قصر محور العين أو زيادة تحدب العدسة', en: 'In myopia, image forms in front of retina due to short eyeball or excessive lens curvature' }
+                },
+                {
+                    q: { ar: 'لتصحيح طول النظر (Hyperopia) نستخدم:', en: 'To correct farsightedness (Hyperopia), we use:' },
+                    options: [
+                        { ar: 'عدسة مقعرة', en: 'Concave lens' },
+                        { ar: 'مرآة مقعرة', en: 'Concave mirror' },
+                        { ar: 'عدسة محدبة', en: 'Convex lens' },
+                        { ar: 'منشور زجاجي', en: 'Glass prism' }
+                    ],
+                    correct: 2,
+                    answer: { ar: 'في طول النظر تتكون الصورة خلف الشبكية، فنستخدم عدسة محدبة لتقريب الصورة onto الشبكية', en: 'In hyperopia, image forms behind retina, so we use a convex lens to bring image onto retina' }
+                },
+                {
+                    q: { ar: 'عملية التكيف (Accommodation) في العين تعني:', en: 'Accommodation in the eye means:' },
+                    options: [
+                        { ar: 'تغير حجم الحدقة فقط', en: 'Changing pupil size only' },
+                        { ar: 'تغير شكل العدسة لضبط البؤرة للمسافات المختلفة', en: 'Changing lens shape to adjust focus for different distances' },
+                        { ar: 'تحريك العين في اتجاهات مختلفة', en: 'Moving eye in different directions' },
+                        { ar: 'تغير لون القزحية', en: 'Changing iris color' }
+                    ],
+                    correct: 1,
+                    answer: { ar: 'التكيف هو قدرة العدسة على تغيير شكلها (وتاليًا بعدها البؤري) لرؤية الأشياء القريبة والبعيدة بوضوح', en: 'Accommodation is the ability of the lens to change its shape (and thus focal length) to see near and far objects clearly' }
+                }
+            ]
+        },
+        {
+            id: 'sec2',
+            title: { ar: '🔹 الجزء الثاني: الكاميرا وتطبيقاتها', en: '🔹 Part 2: Camera & Applications' },
+            questions: [
+                {
+                    q: { ar: 'العدسة المستخدمة في كاميرا التصوير (DSLR) تكون:', en: 'The lens used in a photographic camera (DSLR) is:' },
+                    options: [
+                        { ar: 'محدبة لتكوين صورة حقيقية مقلوبة على المستشعر', en: 'Convex to form a real inverted image on the sensor' },
+                        { ar: 'مقعرة لتكوين صورة وهمية', en: 'Concave to form a virtual image' },
+                        { ar: 'مسطحة تماماً', en: 'Completely flat' },
+                        { ar: 'أسطوانية فقط', en: 'Cylindrical only' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'كاميرا التصوير تستخدم عدسة محدبة لتكوين صورة حقيقية مقلوبة ومصغرة على المستشعر (CCD Sensor) أو الفيلم', en: 'A camera uses a convex lens to form a real, inverted, diminished image on the CCD sensor or film' }
+                },
+                {
+                    q: { ar: 'وظيفة المرآة في كاميرا DSLR هي:', en: 'The function of the mirror in a DSLR camera is:' },
+                    options: [
+                        { ar: 'تكبير الصورة', en: 'Magnifying the image' },
+                        { ar: 'عكس الضوء نحو الباحث (Viewfinder) لرؤية الصورة', en: 'Reflecting light to the viewfinder to see the image' },
+                        { ar: 'تصفية الألوان', en: 'Filtering colors' },
+                        { ar: 'تخزين الصورة', en: 'Storing the image' }
+                    ],
+                    correct: 1,
+                    answer: { ar: 'المرآة في كاميرا DSLR تعكس الضوء القادم من العدسة نحو الباحث (Viewfinder) حتى يتمكن المصور من رؤية المشهد', en: 'The mirror in DSLR reflects light from the lens to the viewfinder so the photographer can see the scene' }
+                },
+                {
+                    q: { ar: 'المستشعر (CCD Sensor) في الكاميرا الرقمية يقوم بـ:', en: 'The CCD Sensor in a digital camera:' },
+                    options: [
+                        { ar: 'تكبير الصورة', en: 'Magnifies the image' },
+                        { ar: 'تصفية الضوء', en: 'Filters light' },
+                        { ar: 'تحويل الصورة الضوئية إلى إشارة كهربائية رقمية', en: 'Converts optical image to digital electrical signal' },
+                        { ar: 'تخزين الصور فقط', en: 'Stores images only' }
+                    ],
+                    correct: 2,
+                    answer: { ar: 'المستشعر CCD يقوم بتحويل الصورة الضوئية الساقطة عليه إلى إشارات كهربائية رقمية يتم معالجتها وتخزينها', en: 'The CCD sensor converts the optical image falling on it into digital electrical signals that are processed and stored' }
+                },
+                {
+                    q: { ar: 'المنشور (Prism) في الكاميرا أو المنظار يستخدم لـ:', en: 'The prism in a camera or binoculars is used to:' },
+                    options: [
+                        { ar: 'تصحيح اتجاه الصورة وإعطاء عمق ثلاثي الأبعاد', en: 'Correct image orientation and provide 3D depth' },
+                        { ar: 'تكبير الصورة فقط', en: 'Magnify image only' },
+                        { ar: 'تصفية الألوان', en: 'Filter colors' },
+                        { ar: 'تخزين الصورة', en: 'Store image' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'المنشور يستخدم لتصحيح اتجاه الصورة (قلبها) وإعطاء إحساس العمق ثلاثي الأبعاد (3D Depth)', en: 'The prism is used to correct image orientation (flip it) and provide 3D depth perception' }
+                }
+            ]
+        },
+        {
+            id: 'sec3',
+            title: { ar: '🔹 الجزء الثالث: المجهر والتلسكوب', en: '🔹 Part 3: Microscope & Telescope' },
+            questions: [
+                {
+                    q: { ar: 'المجهر المركب (Compound Microscope) يتكون من:', en: 'A compound microscope consists of:' },
+                    options: [
+                        { ar: 'عدسة واحدة محدبة', en: 'One convex lens' },
+                        { ar: 'عدستين محدبتين: شيئية (Objective) وعينية (Eyepiece)', en: 'Two convex lenses: Objective and Eyepiece' },
+                        { ar: 'عدسة محدبة ومرآة مقعرة', en: 'One convex lens and one concave mirror' },
+                        { ar: 'عدسة مقعرة فقط', en: 'Only a concave lens' }
+                    ],
+                    correct: 1,
+                    answer: { ar: 'المجهر المركب يتكون من عدستين محدبتين: العدسة الشيئية (قرب الجسم) والعدسة العينية (قرب العين)', en: 'A compound microscope has two convex lenses: objective (near object) and eyepiece (near eye)' }
+                },
+                {
+                    q: { ar: 'الصورة النهائية في المجهر المركب تكون:', en: 'The final image in a compound microscope is:' },
+                    options: [
+                        { ar: 'حقيقية، مقلوبة، مصغرة', en: 'Real, inverted, diminished' },
+                        { ar: 'حقيقية، معتدلة، مكبرة', en: 'Real, upright, magnified' },
+                        { ar: 'وهمية، معتدلة (بالنسبة للجسم الأصلي)، مكبرة جداً', en: 'Virtual, upright (relative to original object), highly magnified' },
+                        { ar: 'وهمية، مقلوبة، مصغرة', en: 'Virtual, inverted, diminished' }
+                    ],
+                    correct: 2,
+                    answer: { ar: 'الصورة النهائية في المجهر تكون وهمية ومعتدلة بالنسبة للجسم الأصلي ومكبرة جداً (حاصل ضرب تكبير العدستين)', en: 'Final image in microscope is virtual, upright relative to original object, and highly magnified (product of both magnifications)' }
+                },
+                {
+                    q: { ar: 'العدسة الشيئية في التلسكوب تكون كبيرة القطر لأن:', en: 'The objective lens in a telescope has a large diameter because:' },
+                    options: [
+                        { ar: 'لتكبير الصورة أكثر', en: 'To magnify image more' },
+                        { ar: 'لتجميع أكبر كمية من الضوء من الأجرام البعيدة', en: 'To collect more light from distant celestial objects' },
+                        { ar: 'لتصغير البعد البؤري', en: 'To reduce focal length' },
+                        { ar: 'لتقليل الانحرافات اللونية', en: 'To reduce chromatic aberrations' }
+                    ],
+                    correct: 1,
+                    answer: { ar: 'العدسة الشيئية الكبيرة تجمع كمية أكبر من الضوء من النجوم والمجرات البعيدة، مما يجعل الصورة أوضح وأكثر سطوعاً', en: 'A large objective lens collects more light from distant stars and galaxies, making the image clearer and brighter' }
+                },
+                {
+                    q: { ar: 'بعض التلسكوبات الحديثة تُستخدم لجمع:', en: 'Some modern telescopes are used to collect:' },
+                    options: [
+                        { ar: 'الضوء المرئي فقط', en: 'Visible light only' },
+                        { ar: 'أشعة غير مرئية مثل الأشعة السينية وأشعة الراديو', en: 'Non-visible rays like X-rays and radio waves' },
+                        { ar: 'الحرارة فقط', en: 'Heat only' },
+                        { ar: 'الصوت من الفضاء', en: 'Sound from space' }
+                    ],
+                    correct: 1,
+                    answer: { ar: 'بعض التلسكوبات تُصمم لجمع أشعة غير مرئية مثل الأشعة السينية وأشعة الراديو والأشعة تحت الحمراء لدراسة الكون', en: 'Some telescopes are designed to collect non-visible rays like X-rays, radio waves, and infrared to study the universe' }
+                }
+            ]
+        },
+        {
+            id: 'sec4',
+            title: { ar: '🔹 الجزء الرابع: المنظار الثنائي والعدسة المكبرة', en: '🔹 Part 4: Binoculars & Magnifying Glass' },
+            questions: [
+                {
+                    q: { ar: 'المنظار الثنائي (Binoculars) يعطي إحساس العمق ثلاثي الأبعاد (3D Depth) بسبب:', en: 'Binoculars provide 3D depth perception because:' },
+                    options: [
+                        { ar: 'استخدام عدسة واحدة كبيرة', en: 'Using one large lens' },
+                        { ar: 'المسافة بين العدستين تعطي زاويتَي رؤية مختلفتين', en: 'The distance between the two lenses gives two different viewing angles' },
+                        { ar: 'استخدام ألوان مختلفة', en: 'Using different colors' },
+                        { ar: 'تغيير تردد الضوء', en: 'Changing light frequency' }
+                    ],
+                    correct: 1,
+                    answer: { ar: 'المسافة بين العدستين في المنظار تعطي زاويتَي رؤية مختلفتين قليلاً (مثل العينين)، مما يعطي إحساس العمق ثلاثي الأبعاد', en: 'The distance between lenses gives two slightly different viewing angles (like two eyes), providing 3D depth perception' }
+                },
+                {
+                    q: { ar: 'العدسة المكبرة (Magnifying Glass) توضع بين:', en: 'A magnifying glass is placed between:' },
+                    options: [
+                        { ar: 'البؤرة والعدسة (f > Xo > 0)', en: 'Focal point and lens (f > Xo > 0)' },
+                        { ar: '2F و F', en: '2F and F' },
+                        { ar: 'أبعد من 2F', en: 'Beyond 2F' },
+                        { ar: 'عند البؤرة تماماً', en: 'Exactly at focal point' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'العدسة المكبرة توضع على مسافة أقل من البعد البؤري (Xo < f)، فتتكون صورة وهمية معتدلة مكبرة', en: 'A magnifying glass is placed at distance less than focal length (Xo < f), forming a virtual, upright, magnified image' }
+                },
+                {
+                    q: { ar: 'الصورة في العدسة المكبرة تكون:', en: 'The image in a magnifying glass is:' },
+                    options: [
+                        { ar: 'حقيقية، مقلوبة، مصغرة', en: 'Real, inverted, diminished' },
+                        { ar: 'حقيقية، معتدلة، مكبرة', en: 'Real, upright, magnified' },
+                        { ar: 'وهمية، معتدلة، مكبرة', en: 'Virtual, upright, magnified' },
+                        { ar: 'وهمية، مقلوبة، مصغرة', en: 'Virtual, inverted, diminished' }
+                    ],
+                    correct: 2,
+                    answer: { ar: 'العدسة المكبرة تعطي دائماً صورة وهمية معتدلة مكبرة عندما يكون الجسم بين البؤرة والعدسة', en: 'A magnifying glass always gives a virtual, upright, magnified image when object is between focal point and lens' }
+                },
+                {
+                    q: { ar: 'في المجهر المركب، التكبير الكلي يساوي:', en: 'In a compound microscope, total magnification equals:' },
+                    options: [
+                        { ar: 'مجموع تكبير العدستين', en: 'Sum of magnifications of both lenses' },
+                        { ar: 'حاصل ضرب تكبير العدسة الشيئية في تكبير العدسة العينية', en: 'Product of objective magnification and eyepiece magnification' },
+                        { ar: 'تكبير العدسة الشيئية فقط', en: 'Objective magnification only' },
+                        { ar: 'تكبير العدسة العينية فقط', en: 'Eyepiece magnification only' }
+                    ],
+                    correct: 1,
+                    answer: { ar: 'التكبير الكلي في المجهر = تكبير العدسة الشيئية × تكبير العدسة العينية', en: 'Total magnification in microscope = objective magnification × eyepiece magnification' }
+                }
+            ]
+        },
+        {
+            id: 'sec5',
+            title: { ar: '🔹 الجزء الخامس: العدسات الجذبية وتطبيقات متقدمة', en: '🔹 Part 5: Gravitational Lenses & Advanced' },
+            questions: [
+                {
+                    q: { ar: 'العدسة الجذبية (Gravitational Lens) هي ظاهرة تنبأ بها:', en: 'Gravitational Lens is a phenomenon predicted by:' },
+                    options: [
+                        { ar: 'نيوتن', en: 'Newton' },
+                        { ar: 'ماكسويل', en: 'Maxwell' },
+                        { ar: 'أينشتاين', en: 'Einstein' },
+                        { ar: 'غاليليو', en: 'Galileo' }
+                    ],
+                    correct: 2,
+                    answer: { ar: 'العدسة الجذبية ظاهرة تنبأ بها أينشتاين في نظرية النسبية العامة، حيث تحني الجاذبية مسار الضوء', en: 'Gravitational lensing was predicted by Einstein in General Relativity, where gravity bends the path of light' }
+                },
+                {
+                    q: { ar: 'عندما يكون الجسم الفلكي والعدسة الجذبية والأرض على استقامة واحدة، تتكون:', en: 'When the astronomical object, gravitational lens, and Earth are aligned, it forms:' },
+                    options: [
+                        { ar: 'صورة مشوهة', en: 'Distorted image' },
+                        { ar: 'حلقة أينشتاين (Einstein Ring)', en: 'Einstein Ring' },
+                        { ar: 'لا تتكون صورة', en: 'No image forms' },
+                        { ar: 'صورة سوداء', en: 'Black image' }
+                    ],
+                    correct: 1,
+                    answer: { ar: 'عندما تكون الأجسام على استقامة واحدة، ينحني الضوء بشكل متماثل حول الجسم الضخم مكوناً حلقة كاملة تسمى حلقة أينشتاين', en: 'When objects are aligned, light bends symmetrically around the massive object forming a complete ring called Einstein Ring' }
+                },
+                {
+                    q: { ar: 'تُستخدم العدسات الجذبية في:', en: 'Gravitational lenses are used to:' },
+                    options: [
+                        { ar: 'رؤية المجرات البعيدة جداً التي لا يمكن رصدها مباشرة', en: 'See very distant galaxies that cannot be observed directly' },
+                        { ar: 'تصوير الأشخاص', en: 'Photographing people' },
+                        { ar: 'قياس درجة الحرارة', en: 'Measuring temperature' },
+                        { ar: 'تحليل الصوت', en: 'Analyzing sound' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'العدسات الجذبية تعمل كعدسة مكبرة كونية، تسمح لعلماء الفلك برؤية مجرات بعيدة جداً لا يمكن رصدها مباشرة', en: 'Gravitational lenses act as cosmic magnifying glasses, allowing astronomers to see very distant galaxies that cannot be observed directly' }
+                },
+                {
+                    q: { ar: 'الظاهرة التي تحدث عندما ينحني الضوء بفعل الجاذبية تعتمد على:', en: 'The phenomenon of light bending due to gravity depends on:' },
+                    options: [
+                        { ar: 'لون الضوء فقط', en: 'Color of light only' },
+                        { ar: 'كتلة الجسم الضخم (نجم، ثقب أسود، أو مجرة)', en: 'Mass of the massive object (star, black hole, or galaxy)' },
+                        { ar: 'سرعة الصوت', en: 'Speed of sound' },
+                        { ar: 'درجة حرارة الفضاء', en: 'Temperature of space' }
+                    ],
+                    correct: 1,
+                    answer: { ar: 'انحناء الضوء بفعل الجاذبية يعتمد على كتلة الجسم الضخم (نجم، ثقب أسود، أو مجرة) الذي يعمل كعدسة جذبية', en: 'Light bending by gravity depends on the mass of the massive object (star, black hole, or galaxy) acting as gravitational lens' }
+                }
+            ]
+        }
+    ]
+};
+
+let currentLang = 'ar';
+let timeRemaining = 2700;
+let timerInterval;
+
+function setLanguage(lang) {
+    currentLang = lang;
+    document.documentElement.lang = lang;
+    document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+    
+    document.getElementById('btn-ar').classList.toggle('active', lang === 'ar');
+    document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+    
+    document.body.classList.toggle('en-mode', lang === 'en');
+    
+    document.querySelectorAll('[data-ar][data-en]').forEach(el => {
+        el.textContent = el.getAttribute(`data-${lang}`);
+    });
+    
+    renderExam();
+}
+
+function renderExam() {
+    const container = document.getElementById('exam-content');
+    const labels = {
+        ar: { option: ['أ', 'ب', 'ج', 'د'], answer: '✅ الإجابة:' },
+        en: { option: ['A', 'B', 'C', 'D'], answer: '✅ Answer:' }
+    };
+    const lbl = labels[currentLang];
+    const isRTL = currentLang === 'ar';
+    
+    let html = '';
+    examData.sections.forEach((section, sIdx) => {
+        html += `
+        <section class="bg-white p-6 rounded-xl shadow-lg">
+            <h2 class="text-xl font-bold mb-4 text-teal-700">${section.title[currentLang]}</h2>
+            <ol id="section-${sIdx}-list" class="space-y-4 text-sm">`;
+            
+        section.questions.forEach((q, qIdx) => {
+            const globalIdx = sIdx * 4 + qIdx;
+            const borderSide = isRTL ? 'border-r-4 pr-4' : 'border-l-4 pl-4';
+            html += `
+                <li class="${borderSide} border-teal-500 py-2" id="q-${globalIdx}">
+                    <strong>${globalIdx + 1}.</strong> ${q.q[currentLang]}<br>`;
+                    
+            q.options.forEach((opt, oIdx) => {
+                const radioSide = isRTL ? 'mr-4 ml-2' : 'ml-4 mr-2';
+                html += `
+                    <label class="cursor-pointer block mt-1 ${isRTL ? 'mr-4' : 'ml-4'}">
+                        <input type="radio" name="q${globalIdx}" value="${String.fromCharCode(97 + oIdx)}" class="${radioSide}"> 
+                        ${lbl.option[oIdx]}) ${opt[currentLang]}
+                    </label>`;
+            });
+            
+            html += `
+                    <div class="answer-box text-green-700 mt-2 font-medium hidden">
+                        ${lbl.answer} ${lbl.option[q.correct]}) ${q.options[q.correct][currentLang]} — ${q.answer[currentLang]}
+                    </div>
+                </li>`;
+        });
+        
+        html += `
+            </ol>
+        </section>`;
+    });
+    
+    container.innerHTML = html;
+}
+
+function startTimer() {
+    document.getElementById('timer-container').style.display = 'block';
+    timerInterval = setInterval(() => {
+        timeRemaining--;
+        const minutes = Math.floor(timeRemaining / 60);
+        const seconds = timeRemaining % 60;
+        const timerEl = document.getElementById('timer');
+        timerEl.textContent = `${minutes.toString().padStart(2,'0')}:${seconds.toString().padStart(2,'0')}`;
+        if (timeRemaining <= 300) timerEl.classList.add('timer-warning');
+        if (timeRemaining <= 0) {
+            clearInterval(timerInterval);
+            alert(currentLang === 'ar' ? "انتهى الوقت! سيتم تسليم الامتحان تلقائياً." : "Time's up! Exam will be submitted automatically.");
+            gradeExam();
+        }
+    }, 1000);
+}
+
+function toggleAnswers() {
+    document.querySelectorAll('.answer-box').forEach(el => el.classList.toggle('hidden'));
+}
+
+function gradeExam() {
+    let correctCount = 0;
+    const correctAnswersLetters = [
+        'b','c','c','b',  // Q1-4: Eye & Vision Defects
+        'a','b','c','a',  // Q5-8: Camera
+        'b','c','b','b',  // Q9-12: Microscope & Telescope
+        'b','a','c','b',  // Q13-16: Binoculars & Magnifying Glass
+        'c','b','a','b'   // Q17-20: Gravitational Lenses
+    ];
+    
+    let sec1 = 0, sec2 = 0, sec3 = 0, sec4 = 0, sec5 = 0;
+    
+    for (let i = 0; i < 20; i++) {
+        const selected = document.querySelector(`input[name="q${i}"]:checked`);
+        const li = document.getElementById(`q-${i}`);
+        
+        if (li) {
+            const isCorrect = selected && selected.value === correctAnswersLetters[i];
+            
+            if (isCorrect) {
+                correctCount++;
+                li.classList.add('correct');
+                li.classList.remove('incorrect');
+                if (i < 4) sec1++;
+                else if (i < 8) sec2++;
+                else if (i < 12) sec3++;
+                else if (i < 16) sec4++;
+                else sec5++;
+            } else {
+                li.classList.add('incorrect');
+                li.classList.remove('correct');
+            }
+        }
+    }
+
+    const score = (correctCount / 20) * 100;
+    const successRate = Math.round(score);
+    
+    document.getElementById('res-total').textContent = `${Math.round(score)} / 100`;
+    document.getElementById('res-name').textContent = document.getElementById('studentName').value || (currentLang === 'ar' ? 'طالب' : 'Student');
+    document.getElementById('res-date').textContent = new Date().toLocaleDateString(currentLang === 'ar' ? 'ar-AE' : 'en-US');
+    
+    document.getElementById('sec1-score').textContent = `${sec1}/4`;
+    document.getElementById('sec2-score').textContent = `${sec2}/4`;
+    document.getElementById('sec3-score').textContent = `${sec3}/4`;
+    document.getElementById('sec4-score').textContent = `${sec4}/4`;
+    document.getElementById('sec5-score').textContent = `${sec5}/4`;
+    
+    const badge = document.getElementById('success-badge');
+    const percent = document.getElementById('success-percent');
+    percent.textContent = `${successRate}%`;
+    
+    if (currentLang === 'ar') {
+        if (successRate >= 90) { badge.textContent = 'ممتاز'; badge.className = 'success-badge grade-excellent'; }
+        else if (successRate >= 75) { badge.textContent = 'جيد جداً'; badge.className = 'success-badge grade-good'; }
+        else if (successRate >= 50) { badge.textContent = 'جيد'; badge.className = 'success-badge grade-pass'; }
+        else { badge.textContent = 'يحتاج تحسين'; badge.className = 'success-badge grade-fail'; }
+    } else {
+        if (successRate >= 90) { badge.textContent = 'Excellent'; badge.className = 'success-badge grade-excellent'; }
+        else if (successRate >= 75) { badge.textContent = 'Very Good'; badge.className = 'success-badge grade-good'; }
+        else if (successRate >= 50) { badge.textContent = 'Good'; badge.className = 'success-badge grade-pass'; }
+        else { badge.textContent = 'Needs Improvement'; badge.className = 'success-badge grade-fail'; }
+    }
+    
+    document.getElementById('results-panel').classList.remove('hidden');
+    document.getElementById('results-panel').scrollIntoView({ behavior: 'smooth' });
+    document.getElementById('sendEmailBtn').classList.remove('hidden');
+}
+
+function sendResultsToEmail() {
+    const btn = document.getElementById('sendEmailBtn');
+    const status = document.getElementById('emailStatus');
+    btn.disabled = true;
+    btn.textContent = currentLang === 'ar' ? '⏳ جاري الإرسال...' : '⏳ Sending...';
+
+    const name = document.getElementById('studentName').value || 'N/A';
+    const studentClass = document.getElementById('studentClass').value || (currentLang === 'ar' ? 'غير محدد' : 'N/A');
+    const date = document.querySelector('input[type="text"]').value || new Date().toLocaleDateString(currentLang === 'ar' ? 'ar-AE' : 'en-US');
+    const score = document.getElementById('res-total').textContent;
+    const successRate = document.getElementById('success-percent').textContent;
+    const sec1 = document.getElementById('sec1-score').textContent;
+    const sec2 = document.getElementById('sec2-score').textContent;
+    const sec3 = document.getElementById('sec3-score').textContent;
+    const sec4 = document.getElementById('sec4-score').textContent;
+    const sec5 = document.getElementById('sec5-score').textContent;
+
+    const dir = currentLang === 'ar' ? 'rtl' : 'ltr';
+    const font = currentLang === 'ar' ? 'Cairo' : 'Inter';
+    
+    const sectionNames = {
+        ar: ['العين البشرية وعيوب الإبصار', 'الكاميرا وتطبيقاتها', 'المجهر والتلسكوب', 'المنظار الثنائي والعدسة المكبرة', 'العدسات الجذبية وتطبيقات متقدمة'],
+        en: ['Human Eye & Vision Defects', 'Camera & Applications', 'Microscope & Telescope', 'Binoculars & Magnifying Glass', 'Gravitational Lenses & Advanced']
+    };
+    const sn = sectionNames[currentLang];
+
+    let answersHTML = `<div dir="${dir}" style="font-family: '${font}', sans-serif;">
+        <h3 style="color:#0d9488;">📊 ${currentLang === 'ar' ? 'تفصيل الأداء - تطبيقات العدسات (1.3)' : 'Performance Details - Applications of Lenses (1.3)'}:</h3>
+        <p><strong>${currentLang === 'ar' ? 'الطالب' : 'Student'}:</strong> ${name} | <strong>${currentLang === 'ar' ? 'الشعبة' : 'Class'}:</strong> ${studentClass}</p>
+        <ul>
+            <li>${sn[0]}: ${sec1}</li>
+            <li>${sn[1]}: ${sec2}</li>
+            <li>${sn[2]}: ${sec3}</li>
+            <li>${sn[3]}: ${sec4}</li>
+            <li>${sn[4]}: ${sec5}</li>
+        </ul>
+        <table style="border:1px solid #e5e7eb; border-collapse:collapse; width:100%; font-size:14px; direction: ${dir};">
+        <tr style="background:#0d9488; color:white;"><th style="border:1px solid #e5e7eb; padding:8px;">${currentLang === 'ar' ? 'السؤال' : 'Q#'}</th><th style="border:1px solid #e5e7eb; padding:8px;">${currentLang === 'ar' ? 'الإجابة المختارة' : 'Selected'}</th><th style="border:1px solid #e5e7eb; padding:8px;">${currentLang === 'ar' ? 'الحالة' : 'Status'}</th></tr>`;
+    
+    const correctAnswersLetters = ['b','c','c','b','a','b','c','a','b','c','b','b','b','a','c','b','c','b','a','b'];
+    
+    for (let i = 0; i < 20; i++) {
+        const sel = document.querySelector(`input[name="q${i}"]:checked`);
+        const isCorrect = sel && sel.value === correctAnswersLetters[i];
+        answersHTML += `<tr><td style="border:1px solid #e5e7eb; padding:6px;">${i + 1}</td><td style="border:1px solid #e5e7eb; padding:6px;">${sel ? sel.value.toUpperCase() : '-'}</td><td style="border:1px solid #e5e7eb; padding:6px; color:${isCorrect ? 'green' : 'red'}">${isCorrect ? '✅ ' + (currentLang === 'ar' ? 'صحيح' : 'Correct') : '❌ ' + (currentLang === 'ar' ? 'خطأ' : 'Wrong')}</td></tr>`;
+    }
+    answersHTML += '</table></div>';
+
+    const PUBLIC_KEY = "Rb3Lq8tXaFmc5YHUH";
+    const SERVICE_ID = "service_w15m64i";
+    const TEMPLATE_ID = "template_5b0u2tq";
+    const TARGET_EMAIL = "mohammedhesham872@gmail.com";
+
+    emailjs.init(PUBLIC_KEY);
+    const templateParams = {
+        to_email: TARGET_EMAIL,
+        student_name: name,
+        exam_date: date,
+        total_score: score,
+        success_rate: successRate,
+        answers_table: answersHTML
+    };
+
+    emailjs.send(SERVICE_ID, TEMPLATE_ID, templateParams)
+        .then(() => {
+            status.textContent = currentLang === 'ar' ? '✅ تم الإرسال بنجاح! تحقق من Gmail.' : '✅ Sent successfully! Check Gmail.';
+            status.style.color = '#059669';
+            btn.textContent = currentLang === 'ar' ? '✓ تم الإرسال' : '✓ Sent';
+        })
+        .catch(err => {
+            status.textContent = currentLang === 'ar' ? '❌ فشل الإرسال. تحقق من الإعدادات.' : '❌ Failed to send. Check settings.';
+            status.style.color = '#dc2626';
+            btn.disabled = false;
+            btn.textContent = currentLang === 'ar' ? '📧 إعادة المحاولة' : '📧 Retry';
+            console.error('EmailJS Error:', err);
+        });
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+    renderExam();
+    startTimer();
+});
+</script>
+</body>
+</html>
